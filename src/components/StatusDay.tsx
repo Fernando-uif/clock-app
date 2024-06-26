@@ -1,22 +1,30 @@
 import Icon from "./Icon";
 import style from "../styles/icon/icon.module.css";
-
+import { Hour } from "./Hour";
 interface StatusDayProps {
-  statusDay: "morning" | "night";
+  statusDay: "morning" | "night" | "evening";
+  time: string[];
 }
-export const StatusDay = ({ statusDay }: StatusDayProps) => {
+export const StatusDay = ({ statusDay, time }: StatusDayProps) => {
   const regardsDay = {
     morning: "GOOD MORNING",
-    night: "GOOD EVENING, IT’S CURRENTLY",
+    evening: "GOOD EVENING",
+    night: "GOOD NIGHT",
   };
   return (
-    <div className="pt-[14rem]">
-      <Icon name="sun" className={`${style["icon"]}`} />
-      <span
-        className={`text-[1.125rem] font-normal tracking-[0.225rem] uppercase text-light`}
-      >
-        {statusDay === "morning" ? regardsDay.morning : regardsDay.night}
-      </span>
-    </div>
+    <>
+      <div className="pt-[14rem] flex gap-[1rem] pl-[1.62rem]">
+        <Icon
+          name={statusDay === "morning" ? "sun" : "moon"}
+          className={`${style["icon"]}`}
+        />
+        <span
+          className={`text-[1.125rem] font-normal tracking-[0.225rem] uppercase text-light`}
+        >
+          {statusDay === "morning" ? regardsDay.morning : regardsDay.night}
+        </span>
+      </div>
+      <Hour time={time} />
+    </>
   );
 };

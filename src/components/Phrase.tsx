@@ -4,7 +4,7 @@ import style from "../styles/icon/icon.module.css";
 export const Phrase = () => {
   return (
     <>
-      <div className={`w-72 m-auto pt-8 pl-6 pr-13 text-white z-20`}>
+      <div className={`w-72 m-auto pt-8 pl-6 pr-13 text-white z-20 mb-10`}>
         <blockquote
           className={`text-xs font-normal leading-5  relative text-light`}
         >

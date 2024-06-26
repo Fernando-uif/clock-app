@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 
-export const useFetch = (url: string) => {
-  const [info, setInfo] = useState("");
+export const useFetch = <T>(url: string) => {
+  const [info, setInfo] = useState<T | null>(null);
   useEffect(() => {
-    fetch(url).then((data) =>
-      data.json().then((data) => {
-        setInfo(data);
-      })
-    );
+    fetch(url)
+      .then((data) =>
+        data.json().then((data: T) => {
+          if(data)
+          setInfo(data || null);
+        })
+      )
   }, [url]);
-  return [info];
+  if(!info) return null;
+  return info ;
 };

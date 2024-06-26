@@ -1,7 +1,8 @@
-import { Hour, Phrase, StatusDay } from "./components/";
-
+import { GetTime, Phrase } from "./components/";
 
 function App() {
+  const localTime = new Date().getHours();
+  console.log(localTime,'time');
   return (
     <section
       className={`
@@ -17,9 +18,7 @@ function App() {
         className={`absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)]`}
       >
         <Phrase />
-        <StatusDay statusDay="morning" />
-        <Hour />
-        {/* <GetTime /> */}
+        <GetTime />
       </div>
     </section>
   );
