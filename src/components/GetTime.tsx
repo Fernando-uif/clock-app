@@ -24,6 +24,7 @@ export const GetTime = () => {
   const localZone =
     useFetch<LocalTime>("http://worldtimeapi.org/api/ip") || null;
 
+
   const localTimeZone = localZone?.timezone.replace("/", "-").replace("_", " ");
   setTimeout(() => {
     setlocalHour(new Date().getHours().toString().padStart(2, "00"));
@@ -33,8 +34,6 @@ export const GetTime = () => {
   const localTime = new Date(localZone?.utc_datetime || new Date());
 
   const handleChangeZone = (e: ChangeEvent<HTMLSelectElement>) => {
-    console.log("change");
-    console.log(e.target.value, "e");
     setSelectTimeZone(e.target.value);
   };
   useEffect(() => {
@@ -97,45 +96,67 @@ export const GetTime = () => {
       <span className="block text-light font-bold leading-[1.75rem] tracking-[0.1875rem] uppercase pl-[1.62rem] mt-1">
         {localTimeZone}
       </span>
-      <div className="pl-[1.63rem] pt-[3rem]">
-        <button
-          className={`
-            bg-light
-            flex 
-            h-[39px]
-            items-center
-            justify-center
-            leading-[0.875rem]
-            gap-[15px]
-            rounded-[1.75rem]
-            uppercase
-            w-[115px]
-            pt-[13px]
-            pl-[17px]
-            pb-[12px]
-            pr-[7px]
-          `}
+      <div className="pl-[1.63rem] pt-[3rem] relative">
+        <div
+          className={clsx(
+            "fixed bottom-0 left-0 right-0 transition-all duration-[.4s]",
+            {
+              "translate-y-[0]": isModalOpen,
+              "translate-y-[100%]": !isModalOpen,
+            }
+          )}
         >
-          <div
-            className="
-            font-semibold
-            opacity-[.5]
-            text-[12px] 
-            text-black
-            tracking-[3.75px]
-            "
+          <button
+            className={`
+            bg-light flex  h-[39px] items-center justify-center leading-[0.875rem] gap-[15px] rounded-[1.75rem] uppercase w-[115px] pt-[13px] pl-[17px] pb-[12px] pr-[7px] absolute -top-[73px] left-[1.62rem] `}
           >
-            more
+            <div className="font-semibold opacity-[.5] text-[12px]  text-black tracking-[3.75px]">
+              more
+            </div>
+            <Icon
+              name="arrow"
+              className={clsx("block", {
+                "rotate-[180deg] transition-all": isModalOpen,
+                "rotate-[0deg] transition-all": !isModalOpen,
+              })}
+              onClick={handleClick}
+            />
+          </button>
+          <div className="text-light bg-[rgba(255,255,255,.75)] backdrop-blur-[20px]  h-[256px] left-0 right-0 px-[17px] py-[48px] flex flex-col gap-[16px] text-black bottom-0 z-50 ">
+            <div className="flex justify-between gap-[40px]">
+              <div className="text-[#303030] text-[10px] font-normal leading-[28px] uppercase tracking-[2px]">
+                CURRENT TIMEZONE
+              </div>
+              <div className="text-[#303030] text-[20px] font-bold">
+                {localZone?.timezone.replace("_", " ")}
+              </div>
+            </div>
+            <div className="flex justify-between gap-[40px]">
+              <div className="text-[#303030] text-[10px] font-normal leading-[28px] uppercase tracking-[2px]">
+                Day of the year
+              </div>
+              <div className="text-[#303030] text-[20px] font-bold">
+                {localZone?.day_of_year}
+              </div>
+            </div>
+            <div className="flex justify-between gap-[40px]">
+              <div className="text-[#303030] text-[10px] font-normal leading-[28px] uppercase tracking-[2px]">
+                Day of the week
+              </div>
+              <div className="text-[#303030] text-[20px] font-bold">
+                {localZone?.day_of_week}
+              </div>
+            </div>
+            <div className="flex justify-between gap-[40px]">
+              <div className="text-[#303030] text-[10px] font-normal leading-[28px] uppercase tracking-[2px]">
+                week number
+              </div>
+              <div className="text-[#303030] text-[20px] font-bold">
+                {localZone?.week_number}
+              </div>
+            </div>
           </div>
-          <Icon
-            name="arrow"
-            className={clsx("block", {
-              "rotate-[180deg] transition-all": !isModalOpen,
-              "rotate-[0deg] transition-all": isModalOpen,
-            })}
-            onClick={handleClick}
-          />
-        </button>
+        </div>
       </div>
     </>
   );

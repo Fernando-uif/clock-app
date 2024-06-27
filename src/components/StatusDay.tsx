@@ -13,7 +13,7 @@ export const StatusDay = ({ statusDay, time }: StatusDayProps) => {
   };
   return (
     <>
-      <div className="pt-[14rem] flex gap-[1rem] pl-[1.62rem]">
+      <div className="mt-[5rem] flex gap-[1rem] pl-[1.62rem]">
         <Icon
           name={
             statusDay === "morning" || statusDay === "evening" ? "sun" : "moon"
