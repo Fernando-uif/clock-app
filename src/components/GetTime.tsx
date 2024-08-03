@@ -33,7 +33,7 @@ export const GetTime = () => {
   }, 1000 * 60);
 
   const isMorning = new Date().getHours() < 20;
-
+  console.log(localZone?.timezone.replace("_", " ").split("/")[1], "info");
   return (
     <>
       <div
@@ -121,7 +121,9 @@ export const GetTime = () => {
                     }
                   )}
                 >
-                  {localZone?.timezone.replace("_", " ")}
+                  {localZone?.timezone.replace("_", " ")?.split("/")?.[1] ||
+                    localZone?.timezone.replace("_", " ") ||
+                    "No place"}
                 </div>
               </div>
               <div className="flex justify-between gap-[40px] md:flex-col md:gap-0 md:[justify-content:unset]">
