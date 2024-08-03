@@ -5,3 +5,9 @@
   fill: #fff;
   opacity: 0.5;
 }
+.buttonInfo svg circle {
+  transition: fill 0.3s ease;
+}
+.buttonInfo:hover svg circle {
+  fill: #999;
+}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { clsx } from "clsx";
 
 import { useFetch } from "../hooks/useFetch";
@@ -7,31 +7,30 @@ import { LocalTime } from "../interfaces/Time.interface";
 
 import Icon from "./Icon";
 import { getDayOfTheWeek } from "../helpers/getDayOfTheWeek";
+import buttonStyle from "../styles/icon/icon.module.css";
+import { ToggleContext } from "../context/ToggleContext";
 
 export const GetTime = () => {
+  const { isOn: isModalOpen, setIsOn } = useContext(ToggleContext);
+
   const [localHour, setlocalHour] = useState(
     new Date().getHours().toString().padStart(2, "00")
   );
+
   const [localMinutes, setLocalMinutes] = useState(
     new Date().getMinutes().toString().padStart(2, "00")
   );
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const localZone =
     useFetch<LocalTime>("https://worldtimeapi.org/api/ip") || null;
 
   const localTimeZone = localZone?.timezone.replace("/", "-").replace("_", " ");
+  const localTime = new Date(localZone?.utc_datetime || new Date());
+
   setTimeout(() => {
     setlocalHour(new Date().getHours().toString().padStart(2, "00"));
     setLocalMinutes(new Date().getMinutes().toString().padStart(2, "00"));
   }, 1000 * 60);
-
-  const localTime = new Date(localZone?.utc_datetime || new Date());
-
-  const handleClick = () => {
-    setIsModalOpen((prev) => !prev);
-  };
 
   const isMorning = new Date().getHours() < 20;
 
@@ -42,52 +41,58 @@ export const GetTime = () => {
           "bottom-0 left-0 right-0 transition-all duration-[.4s] fixed",
           {
             "translate-y-[0]": isModalOpen,
-            "translate-y-[50%]": !isModalOpen,
+            "translate-y-[55%] md:translate-y-[55%] xl:translate-y-[60%]":
+              !isModalOpen,
           }
         )}
       >
-        <StatusDay
-          statusDay={
-            localTime.getHours() >= 0 && localTime.getHours() < 12
-              ? "morning"
-              : localTime.getHours() >= 12 && localTime.getHours() < 20
-              ? "evening"
-              : "night"
-          }
-          time={[localHour || "--", localMinutes || "--"]}
-        />
-        <span className="block text-light font-bold leading-[1.75rem] tracking-[0.1875rem] uppercase pl-[1.62rem] mt-1 select-none">
-          {localTimeZone}
-        </span>
+        <div className="xl:flex xl:items-end justify-between">
+          <div>
+            <StatusDay
+              statusDay={
+                localTime.getHours() >= 0 && localTime.getHours() < 12
+                  ? "morning"
+                  : localTime.getHours() >= 12 && localTime.getHours() < 20
+                  ? "evening"
+                  : "night"
+              }
+              time={[localHour || "--", localMinutes || "--"]}
+              completeTime={localTime}
+            />
+            <span className="block text-light font-bold leading-[1.75rem] tracking-[0.1875rem] uppercase pl-[1.62rem] mt-1 select-none xl:pl-[10.31rem]">
+              {localTimeZone}
+            </span>
+          </div>
+          <div>
+            <button
+              className={`
+            bg-light flex  h-[39px] items-center justify-center leading-[0.875rem] gap-[15px] rounded-[1.75rem] uppercase w-[115px] pt-[13px] pl-[17px] pb-[12px] pr-[7px] -top-[73px] left-[1.62rem] ml-[20px] mt-5 md:h-[3.5rem] md:w-[9.125rem]  md:justify-between  md:p-[.175rem] md:pl-[25px] md:pr-[7px] xl:mr-[165px]`}
+            >
+              <div className="font-semibold opacity-[.5] text-xs  text-black tracking-[3.75px] md:text-base">
+                {!isModalOpen ? "more" : "less"}
+              </div>
+              <Icon
+                name="arrow"
+                className={clsx(`block ${buttonStyle["buttonInfo"]}`, {
+                  "rotate-[180deg] transition-all": isModalOpen,
+                  "rotate-[0deg] transition-all": !isModalOpen,
+                })}
+                onClick={() => setIsOn((prev) => !prev)}
+              />
+            </button>
+          </div>
+        </div>
 
         {/* Modal */}
-        <div className="pt-[3rem]">
+        <div className="pt-[3rem] md:pt-[2rem]">
           <div
             className={clsx(
               "bottom-0 left-0 right-0 transition-all duration-[.4s]"
             )}
           >
-            <div className="pb-[40px]">
-              <button
-                className={`
-            bg-light flex  h-[39px] items-center justify-center leading-[0.875rem] gap-[15px] rounded-[1.75rem] uppercase w-[115px] pt-[13px] pl-[17px] pb-[12px] pr-[7px] -top-[73px] left-[1.62rem] ml-[20px]`}
-              >
-                <div className="font-semibold opacity-[.5] text-[12px]  text-black tracking-[3.75px]">
-                  {!isModalOpen ? "more" : "less"}
-                </div>
-                <Icon
-                  name="arrow"
-                  className={clsx("block", {
-                    "rotate-[180deg] transition-all": isModalOpen,
-                    "rotate-[0deg] transition-all": !isModalOpen,
-                  })}
-                  onClick={handleClick}
-                />
-              </button>
-            </div>
             <div
               className={clsx(
-                " backdrop-blur-[20px]  h-[256px] left-0 right-0 px-[17px] py-[48px] flex flex-col gap-[16px] text-black bottom-0 z-50 ",
+                " backdrop-blur-[20px]  h-[256px] left-0 right-0 px-[17px] py-[48px] flex flex-col gap-[16px] text-black bottom-0 z-50 md:grid md:grid-cols-2 md:h-[24.5rem]  md:p-[3rem]",
 
                 {
                   "text-light bg-[rgba(255,255,255,.75)]": isMorning,
@@ -95,10 +100,10 @@ export const GetTime = () => {
                 }
               )}
             >
-              <div className="flex justify-between gap-[40px]">
+              <div className="flex justify-between gap-[40px] md:flex-col md:gap-0 md:[justify-content:unset]">
                 <div
                   className={clsx(
-                    "text-[10px] font-normal leading-[28px] uppercase tracking-[2px]",
+                    "text-[10px] font-normal leading-[28px] uppercase tracking-[2px] md:text-[.81rem] md:leading-[1.75rem]",
                     {
                       "text-[#303030]": isMorning,
                       "text-light": !isMorning,
@@ -108,18 +113,21 @@ export const GetTime = () => {
                   CURRENT TIMEZONE
                 </div>
                 <div
-                  className={clsx("text-[20px] font-bold", {
-                    "text-[#303030]": isMorning,
-                    "text-light": !isMorning,
-                  })}
+                  className={clsx(
+                    "text-[20px] font-bold md:text-[2.5rem] md:leading-normal",
+                    {
+                      "text-[#303030]": isMorning,
+                      "text-light": !isMorning,
+                    }
+                  )}
                 >
                   {localZone?.timezone.replace("_", " ")}
                 </div>
               </div>
-              <div className="flex justify-between gap-[40px]">
+              <div className="flex justify-between gap-[40px] md:flex-col md:gap-0 md:[justify-content:unset]">
                 <div
                   className={clsx(
-                    " text-[10px] font-normal leading-[28px] uppercase tracking-[2px]",
+                    " text-[10px] font-normal leading-[28px] uppercase tracking-[2px] md:text-[.81rem] md:leading-[1.75rem]",
                     {
                       "text-[#303030]": isMorning,
                       "text-light": !isMorning,
@@ -128,14 +136,14 @@ export const GetTime = () => {
                 >
                   Day of the year
                 </div>
-                <div className="text-[#303030] text-[20px] font-bold">
+                <div className="text-[#303030] text-[20px] font-bold md:text-[2.5rem] md:leading-normal">
                   {localZone?.day_of_year}
                 </div>
               </div>
-              <div className="flex justify-between gap-[40px]">
+              <div className="flex justify-between gap-[40px] md:flex-col md:gap-0 md:[justify-content:unset]">
                 <div
                   className={clsx(
-                    " text-[10px] font-normal leading-[28px] uppercase tracking-[2px]",
+                    " text-[10px] font-normal leading-[28px] uppercase tracking-[2px] md:text-[.81rem] md:leading-[1.75rem]",
                     {
                       "text-[#303030]": isMorning,
                       "text-light": !isMorning,
@@ -144,14 +152,14 @@ export const GetTime = () => {
                 >
                   Day of the week
                 </div>
-                <div className="text-[#303030] text-[20px] font-bold">
+                <div className="text-[#303030] text-[20px] font-bold md:text-[2.5rem] md:leading-normal">
                   {getDayOfTheWeek(Number(localZone?.day_of_week))}
                 </div>
               </div>
-              <div className="flex justify-between gap-[40px]">
+              <div className="flex justify-between gap-[40px] md:flex-col md:gap-0 md:[justify-content:unset]">
                 <div
                   className={clsx(
-                    " text-[10px] font-normal leading-[28px] uppercase tracking-[2px]",
+                    " text-[10px] font-normal leading-[28px] uppercase tracking-[2px] md:text-[.81rem] md:leading-[1.75rem]",
                     {
                       "text-[#303030]": isMorning,
                       "text-light": !isMorning,
@@ -160,7 +168,7 @@ export const GetTime = () => {
                 >
                   week number
                 </div>
-                <div className="text-[#303030] text-[20px] font-bold">
+                <div className="text-[#303030] text-[20px] font-bold md:text-[2.5rem] md:leading-normal">
                   {localZone?.week_number}
                 </div>
               </div>

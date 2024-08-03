@@ -4,8 +4,9 @@ import { Hour } from "./Hour";
 interface StatusDayProps {
   statusDay: "morning" | "night" | "evening";
   time: string[];
+  completeTime:Date;
 }
-export const StatusDay = ({ statusDay, time }: StatusDayProps) => {
+export const StatusDay = ({ statusDay, time, completeTime }: StatusDayProps) => {
   const regardsDay = {
     morning: "GOOD MORNING",
     evening: "GOOD EVENING",
@@ -13,7 +14,7 @@ export const StatusDay = ({ statusDay, time }: StatusDayProps) => {
   };
   return (
     <>
-      <div className="gap-[1rem] pl-[1.62rem]">
+      <div className="gap-[1rem] pl-[1.62rem] xl:pl-[10.31rem]">
         <div className="flex gap-[16px]">
           <Icon
             name={
@@ -25,7 +26,7 @@ export const StatusDay = ({ statusDay, time }: StatusDayProps) => {
           />
           <div>
             <span
-              className={`text-[1.125rem] font-normal tracking-[0.225rem] uppercase text-light select-none`}
+              className={`text-[.93rem] font-normal tracking-[0.225rem] uppercase text-light select-none md:text-lg`}
             >
               {statusDay === "morning"
                 ? regardsDay.morning
@@ -35,7 +36,7 @@ export const StatusDay = ({ statusDay, time }: StatusDayProps) => {
             </span>
           </div>
         </div>
-        <Hour time={time} />
+        <Hour time={time} completeTime={completeTime} />
       </div>
     </>
   );
