@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useEffect, Children, useState, ChangeEvent } from "react";
 import { clsx } from "clsx";
 
 import { useFetch } from "../hooks/useFetch";
@@ -14,15 +14,15 @@ export const GetTime = () => {
   const [localMinutes, setLocalMinutes] = useState(
     new Date().getMinutes().toString().padStart(2, "00")
   );
-  // const [selectTimeZone, setSelectTimeZone] = useState("");
-  // const [selectRegion, setselectRegion] = useState([]);
+  const [selectTimeZone, setSelectTimeZone] = useState("");
+  const [selectRegion, setselectRegion] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // const timeZones =
-  //   useFetch<string[]>("http://worldtimeapi.org/api/timezone") || [];
+  const timeZones =
+    useFetch<string[]>("https://worldtimeapi.org/api/timezone") || [];
 
   const localZone =
-    useFetch<LocalTime>("http://worldtimeapi.org/api/ip") || null;
+    useFetch<LocalTime>("https://worldtimeapi.org/api/ip") || null;
 
   const localTimeZone = localZone?.timezone.replace("/", "-").replace("_", " ");
   setTimeout(() => {
@@ -32,28 +32,28 @@ export const GetTime = () => {
 
   const localTime = new Date(localZone?.utc_datetime || new Date());
 
-  // const handleChangeZone = (e: ChangeEvent<HTMLSelectElement>) => {
-  //   setSelectTimeZone(e.target.value);
-  // };
-  // useEffect(() => {
-  //   if (selectTimeZone) {
-  //     fetch(`http://worldtimeapi.org/api/timezone/${selectTimeZone}`).then(
-  //       (data) =>
-  //         data.json().then((data) => {
-  //           console.log(data, "data");
-  //           setselectRegion(data);
-  //         })
-  //     );
-  //   }
-  //   return () => {};
-  // }, [selectTimeZone]);
+  const handleChangeZone = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectTimeZone(e.target.value);
+  };
+  useEffect(() => {
+    if (selectTimeZone) {
+      fetch(`https://worldtimeapi.org/api/timezone/${selectTimeZone}`).then(
+        (data) =>
+          data.json().then((data) => {
+            console.log(data, "data");
+            setselectRegion(data);
+          })
+      );
+    }
+    return () => {};
+  }, [selectTimeZone]);
   const handleClick = () => {
     setIsModalOpen((prev) => !prev);
   };
   return (
     <>
       <div className="m-auto flex flex-col gap-2 w-[18rem] pl-[1.5rem]">
-        {/* <select
+        <select
           className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
           onChange={(e) => {
             handleChangeZone(e);
@@ -69,9 +69,9 @@ export const GetTime = () => {
               );
             })
           )}
-        </select> */}
+        </select>
 
-        {/* {selectRegion.length > 0 && (
+        {selectRegion.length > 0 && (
           <select className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
             <option value="">Select a region</option>
             {selectRegion.map((zone) => {
@@ -79,7 +79,7 @@ export const GetTime = () => {
               return <></>;
             })}
           </select>
-        )} */}
+        )}
       </div>
 
       <div
@@ -87,7 +87,7 @@ export const GetTime = () => {
           "bottom-0 left-0 right-0 transition-all duration-[.4s] fixed",
           {
             "translate-y-[0]": isModalOpen,
-            "translate-y-[50%]": isModalOpen,
+            "translate-y-[50%]": !isModalOpen,
           }
         )}
       >
@@ -109,11 +109,7 @@ export const GetTime = () => {
         <div className="pt-[3rem]">
           <div
             className={clsx(
-              "bottom-0 left-0 right-0 transition-all duration-[.4s]",
-              // {
-              //   "translate-y-[0]": isModalOpen,
-              //   "translate-y-[80%]": isModalOpen,
-              // }
+              "bottom-0 left-0 right-0 transition-all duration-[.4s]"
             )}
           >
             <div className="pb-[40px]">
