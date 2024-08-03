@@ -36,7 +36,7 @@ export const Phrase = () => {
     <>
       <div
         className={clsx(
-          `w-72 m-auto pt-8 pl-6 pr-13 text-white z-20 mb-10 relative md:w-[33rem] xl:m-unset xl:pl-[10.31rem]`,
+          `w-72 m-auto pt-8 pl-6 pr-13 text-white z-20 mb-10 relative md:w-[33rem] xl:m-0 xl:pl-[10.31rem] xl:w-[40rem]`,
           {
             "md:hidden": isModalOpen,
             "md:block": !isModalOpen,
