@@ -16,6 +16,10 @@ function App() {
         {
           "bg-[url('/src/assets/background/morning.jpg')]": isMorging,
           "bg-[url('/src/assets/background/night.jpg')]": !isMorging,
+          "md:bg-[url('/src/assets/background/morning-tablet.jpg')]":isMorging,
+          "md:bg-[url('/src/assets/background/night-tablet.jpg')]":!isMorging,
+          "xl:bg-[url('/src/assets/background/morning-desktop.jpg')]":isMorging,
+          "xl:bg-[url('/src/assets/background/night-desktop.jpg')]":!isMorging,
         }
       )}
     >

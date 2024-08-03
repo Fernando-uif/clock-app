@@ -56,7 +56,7 @@ export const GetTime = () => {
           }
           time={[localHour || "--", localMinutes || "--"]}
         />
-        <span className="block text-light font-bold leading-[1.75rem] tracking-[0.1875rem] uppercase pl-[1.62rem] mt-1">
+        <span className="block text-light font-bold leading-[1.75rem] tracking-[0.1875rem] uppercase pl-[1.62rem] mt-1 select-none">
           {localTimeZone}
         </span>
 

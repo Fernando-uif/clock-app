@@ -25,7 +25,7 @@ export const StatusDay = ({ statusDay, time }: StatusDayProps) => {
           />
           <div>
             <span
-              className={`text-[1.125rem] font-normal tracking-[0.225rem] uppercase text-light`}
+              className={`text-[1.125rem] font-normal tracking-[0.225rem] uppercase text-light select-none`}
             >
               {statusDay === "morning"
                 ? regardsDay.morning
