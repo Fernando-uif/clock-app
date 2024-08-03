@@ -7,7 +7,8 @@ import { LocalTime } from "../interfaces/Time.interface";
 
 import Icon from "./Icon";
 import { getDayOfTheWeek } from "../helpers/getDayOfTheWeek";
-import buttonStyle from "../styles/icon/icon.module.css";
+import styles from "../styles/icon/icon.module.css";
+
 import { ToggleContext } from "../context/ToggleContext";
 
 export const GetTime = () => {
@@ -73,7 +74,7 @@ export const GetTime = () => {
               </div>
               <Icon
                 name="arrow"
-                className={clsx(`block ${buttonStyle["buttonInfo"]}`, {
+                className={clsx(`block ${styles["buttonInfo"]}`, {
                   "rotate-[180deg] transition-all": isModalOpen,
                   "rotate-[0deg] transition-all": !isModalOpen,
                 })}
@@ -92,7 +93,7 @@ export const GetTime = () => {
           >
             <div
               className={clsx(
-                " backdrop-blur-[20px]  h-[256px] left-0 right-0 px-[17px] py-[48px] flex flex-col gap-[16px] text-black bottom-0 z-50 md:grid md:grid-cols-2 md:h-[24.5rem]  md:p-[3rem]",
+                `backdrop-blur-[20px]  h-[256px] left-0 right-0 px-[17px] py-[48px] flex flex-col gap-[16px] text-black bottom-0 z-50 md:grid md:grid-cols-2 md:h-[24.5rem]  md:p-[3rem] ${styles['line']} xl:pl-[155px] xl:pr-[155px]`,
 
                 {
                   "text-light bg-[rgba(255,255,255,.75)]": isMorning,
@@ -126,7 +127,7 @@ export const GetTime = () => {
                     "No place"}
                 </div>
               </div>
-              <div className="flex justify-between gap-[40px] md:flex-col md:gap-0 md:[justify-content:unset]">
+              <div className="flex justify-between gap-[40px] md:flex-col md:gap-0 md:[justify-content:unset] md:items-end">
                 <div
                   className={clsx(
                     " text-[10px] font-normal leading-[28px] uppercase tracking-[2px] md:text-[.81rem] md:leading-[1.75rem]",
@@ -158,7 +159,7 @@ export const GetTime = () => {
                   {getDayOfTheWeek(Number(localZone?.day_of_week))}
                 </div>
               </div>
-              <div className="flex justify-between gap-[40px] md:flex-col md:gap-0 md:[justify-content:unset]">
+              <div className="flex justify-between gap-[40px] md:flex-col md:gap-0 md:[justify-content:unset] md:items-end">
                 <div
                   className={clsx(
                     " text-[10px] font-normal leading-[28px] uppercase tracking-[2px] md:text-[.81rem] md:leading-[1.75rem]",

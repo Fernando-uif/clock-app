@@ -11,3 +11,16 @@
 .buttonInfo:hover svg circle {
   fill: #999;
 }
+
+@media screen and (min-width: 768px) {
+  .line::after {
+    position: absolute;
+    content: "";
+    width: 1px;
+    left: 50%;
+    top: calc(100% / 2 - (15.75rem / 2));
+    opacity: 0.25;
+    height: 15.75rem;
+    background-color: #303030;
+  }
+}
