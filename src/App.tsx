@@ -11,11 +11,10 @@ function App() {
         w-screen
         bg-no-repeat
         bg-cover
-
       `}
     >
       <div
-        className={`absolute top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)]`}
+        className={`top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)]`}
       >
         <Phrase />
         <GetTime />

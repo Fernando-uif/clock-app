@@ -13,24 +13,30 @@ export const StatusDay = ({ statusDay, time }: StatusDayProps) => {
   };
   return (
     <>
-      <div className="mt-[5rem] flex gap-[1rem] pl-[1.62rem]">
-        <Icon
-          name={
-            statusDay === "morning" || statusDay === "evening" ? "sun" : "moon"
-          }
-          className={`${style["icon"]}`}
-        />
-        <span
-          className={`text-[1.125rem] font-normal tracking-[0.225rem] uppercase text-light`}
-        >
-          {statusDay === "morning"
-            ? regardsDay.morning
-            : statusDay === "evening"
-            ? regardsDay.evening
-            : regardsDay.night}
-        </span>
+      <div className="gap-[1rem] pl-[1.62rem]">
+        <div className="flex gap-[16px]">
+          <Icon
+            name={
+              statusDay === "morning" || statusDay === "evening"
+                ? "sun"
+                : "moon"
+            }
+            className={`${style["icon"]}`}
+          />
+          <div>
+            <span
+              className={`text-[1.125rem] font-normal tracking-[0.225rem] uppercase text-light`}
+            >
+              {statusDay === "morning"
+                ? regardsDay.morning
+                : statusDay === "evening"
+                ? regardsDay.evening
+                : regardsDay.night}
+            </span>
+          </div>
+        </div>
+        <Hour time={time} />
       </div>
-      <Hour time={time} />
     </>
   );
 };
