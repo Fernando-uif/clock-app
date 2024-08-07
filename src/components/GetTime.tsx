@@ -93,7 +93,7 @@ export const GetTime = () => {
           >
             <div
               className={clsx(
-                `backdrop-blur-[20px]  h-[256px] left-0 right-0 px-[17px] py-[48px] flex flex-col gap-[16px] text-black bottom-0 z-50 md:grid md:grid-cols-2 md:h-[24.5rem]  md:p-[3rem] ${styles['line']} xl:pl-[155px] xl:pr-[155px]`,
+                `backdrop-blur-[20px]  h-[256px] left-0 right-0 px-[17px] py-[48px] flex flex-col gap-[16px] text-black bottom-0 z-50 md:grid md:grid-cols-2 md:h-[24.5rem]  md:p-[3rem] ${styles["line"]} xl:pl-[155px] xl:pr-[155px]`,
 
                 {
                   "text-light bg-[rgba(255,255,255,.75)]": isMorning,
@@ -139,7 +139,15 @@ export const GetTime = () => {
                 >
                   Day of the year
                 </div>
-                <div className="text-[#303030] text-[20px] font-bold md:text-[2.5rem] md:leading-normal">
+                <div
+                  className={clsx(
+                    "text-[#303030] text-[20px] font-bold md:text-[2.5rem] md:leading-normal",
+                    {
+                      "text-[#303030]": isMorning,
+                      "text-light": !isMorning,
+                    }
+                  )}
+                >
                   {localZone?.day_of_year}
                 </div>
               </div>
@@ -155,7 +163,15 @@ export const GetTime = () => {
                 >
                   Day of the week
                 </div>
-                <div className="text-[#303030] text-[20px] font-bold md:text-[2.5rem] md:leading-normal">
+                <div
+                  className={clsx(
+                    "text-[#303030] text-[20px] font-bold md:text-[2.5rem] md:leading-normal",
+                    {
+                      "text-[#303030]": isMorning,
+                      "text-light": !isMorning,
+                    }
+                  )}
+                >
                   {getDayOfTheWeek(Number(localZone?.day_of_week))}
                 </div>
               </div>
@@ -171,7 +187,15 @@ export const GetTime = () => {
                 >
                   week number
                 </div>
-                <div className="text-[#303030] text-[20px] font-bold md:text-[2.5rem] md:leading-normal">
+                <div
+                  className={clsx(
+                    "text-[#303030] text-[20px] font-bold md:text-[2.5rem] md:leading-normal",
+                    {
+                      "text-[#303030]": isMorning,
+                      "text-light": !isMorning,
+                    }
+                  )}
+                >
                   {localZone?.week_number}
                 </div>
               </div>
